@@ -3,7 +3,7 @@ from django.views import View
 from .models import User
 from .forms import UserForm
 import json
-from .utils import hashing
+from . import utils
 from rest_framework.decorators import api_view
 import traceback
 
@@ -33,7 +33,7 @@ class UserCrud(View):
       user = User()
       user.name = form_data.data['name']
       user.email=form_data.data['email']
-      user.password=hashing.gethashpwd(form_data.data['password']).decode('utf-8')
+      user.password=utils.gethashpwd(form_data.data['password']).decode('utf-8')
       user.save()
       return JsonResponse(data={'message':'CREATED'},status =201)
     except json.JSONDecodeError:
@@ -51,7 +51,7 @@ def updateuser(request):
       if user is None:
         return JsonResponse(data={'mesage':'data not found'},status = 404)
       user.name = form_data.data['name']
-      user.password=hashing.gethashpwd(form_data.data['password']).decode('utf-8')
+      user.password=utils.gethashpwd(form_data.data['password']).decode('utf-8')
       user.save()
       return JsonResponse(data={'message':'UPDATED'},status =200)
     except json.JSONDecodeError:
