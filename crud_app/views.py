@@ -19,7 +19,6 @@ class UserCrud(View):
         }
         for user in User.objects.all()
       ]
-      print(userlist)
       return JsonResponse(data = {'data':userlist},status = 200)
     except Exception as e:
       print(e)
